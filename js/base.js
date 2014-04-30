@@ -3,16 +3,23 @@
         var self = this;
 
         self.name  = details.name;
-        self.price = details.price;
 
-        self.magazine    = details.magazine;
-        self.totalAmmo   = details.totalAmmo;
-        self.rateOfFire  = details.rateOfFire;
-        self.damage      = details.damage;
-        self.accuracy    = details.accuracy;
-        self.stability   = details.stability;
-        self.concealment = details.concealment;
-        self.threat      = details.threat;
+        self._attributes = [
+            "price",
+
+            "magazine",
+            "totalAmmo",
+            "rateOfFire",
+            "damage",
+            "accuracy",
+            "stability",
+            "concealment",
+            "threat"
+        ];
+
+        self._attributes.forEach(function (attribute) {
+            self[attribute] = details[attribute];
+        });
 
         self._imageUrl = details.imageUrl;
 
