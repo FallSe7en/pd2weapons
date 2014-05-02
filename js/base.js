@@ -1,10 +1,10 @@
-(function ($) {
-    var Base = window.Payday2Weapons.Base = function (details) {
+define([], function () {
+    var Base = function (details) {
         var self = this;
 
         self.name  = details.name;
 
-        self._attributes = [
+        self.attributes = [
             "price",
 
             "magazine",
@@ -17,12 +17,14 @@
             "threat"
         ];
 
-        self._attributes.forEach(function (attribute) {
+        self.attributes.forEach(function (attribute) {
             self[attribute] = details[attribute];
         });
 
-        self._imageUrl = details.imageUrl;
+        self.imageUrl = details.imageUrl;
 
         return self;
     };
-})(jQuery);
+
+    return Base;
+});

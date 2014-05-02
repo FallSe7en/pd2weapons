@@ -4,24 +4,50 @@
     <head>
         <title>Payday 2 Weapons</title>
 
-        <script src="base.js"></script>
-        <script src="mod.js"></script>
-        <script src="weapon.js"></script>
-        <script src="presentation.js"></script>
-
-        <script>
-            window.p = new Payday2Weapons.Presentation(WeaponsData);
-        </script>
+        <script src="js/data.js"></script>
+        <script data-main="js/main.js" src="js/lib/require.js"></script>
     </head>
 
     <body>
-        <div id="weapon-stats">
+        <div id="selected-weapon-container">
+            <div id="weapon">
+                <select id="weapon-select" data-bind="
+                    options: weapons,
+                    optionsText: 'name',
+                    value: selectedWeapon,
+                    optionCaption: 'Choose a weapon.'
+                "></select>
+                <img id="weapon-image" data-bind="attr: { src: weaponImage }">
+            </div>
+
+            <div id="weapon-stats">
+                <table data-bind="foreach: weaponStats">
+                    <tr>
+                        <td data-bind="text: name"></td>
+                        <td data-bind="text: value"></td>
+                    </tr>
+                </table>
+            </div>
         </div>
 
         <div id="mod-slots">
+            <ul data-bind="foreach: modSlots">
+                <li data-bind="text: name, click: $root.clickModSlot.bind(name)">
+                    <div>
+                        <!-- ko ifnot: typeof(modImage) === "undefined" -->
+                            <img data-bind="attr: { src: modImage }">
+                        <!-- ko -->
+                    </div>
+                </li>
+            </ul>
         </div>
 
         <div id="available-mods">
+            <ul data-bind="foreach: availableMods">
+                <li data-bind="text: name">
+                    <img data-bind="attr: { src: imageUrl }">
+                </li>
+            </ul>
         </div>
     </body>
 </html>

@@ -1,11 +1,13 @@
-(function ($) {
-    var Weapon = window.Payday2Weapons.Weapon = function (details) {
+define([ "base", "mod" ], function (Base, Mod) {
+    var Weapon = function Weapon(details) {
         var self = this;
 
-        Payday2Weapons.Base.call(self, details);
+        Base.call(self, details);
 
         self._availableModifications = initializeWeaponMods.call(self, details);
         self._addedModifications     = {};
+
+        self._resetModSlots();
 
         return self;
     };
@@ -14,40 +16,50 @@
         var self = this, mods = {};
 
         details.modifications.forEach(function (mod) {
-            var self = this, modSlot = mod.slot;
+            var modSlot = mod.slot;
 
-            if (modSlot in self._modifications) {
-                mods[modSlot].push(new Payday2Weapons.Mod(mod));
+            if (modSlot in mods) {
+                mods[modSlot].push(new Mod(mod));
             } else {
-                mods[modSlot] = [ new Payday2Weapons.Mod(mod) ];
+                mods[modSlot] = [ new Mod(mod) ];
             }
         });
 
         return mods;
     }
 
-    Weapon.prototype.getAvailableSlots = function getAvailableSlots() {
-        return Object.keys(this._availableModifications).sort();
+    Weapon.prototype._resetModSlots = function setAvailableSlots() {
+        var self = this;
+
+        self._addedModifications = {};
+
+        Object.keys(self._availableModifications).forEach(function (slot) {
+            self._addedModifications[slot] = { name: slot, mod: undefined };
+        });
     };
 
     Weapon.prototype.getAvailableMods = function getAvailableMods(slot) {
         return this._availableModifications[slot].sort();
     };
 
-    Weapon.prototype.getAddedMods = function getAddedMods() {
+    Weapon.prototype.getModSlots = function getModSlots() {
         return this._addedModifications;
     };
 
     Weapon.prototype.addMod = function addMod(mod) {
-        this._addedModifications[mod.slot] = mod;
+        if (mod.slot in this._addedModifications) {
+            this._addedModifications[mod.slot].mod = mod;
+        }
     };
 
-    Weapon.prototype.removeMod = function removeMod(mod) {
-        delete this._addedModifications[mod.slot];
+    Weapon.prototype.removeMod = function removeMod(slot) {
+        if (slot in this._addedModifications) {
+            this._addedModifications[slot] = { name: slot, mod: undefined };
+        }
     };
 
     Weapon.prototype.clearMods = function clearMods() {
-        this._addedModifications = {};
+        this._resetModSlots();
     };
 
     Weapon.prototype.getSummarizedStats = function getSummarizedStats() {
@@ -56,11 +68,15 @@
         Object.keys(self._addedModifications).forEach(function (slot) {
             var mod = self._addedModifications[slot];
 
-            self._attributes.forEach(function (attribute) {
+            self.attributes.forEach(function (attribute) {
                 stats[attribute] = self[attribute] + mod[attribute];
             });
         });
 
-        return stats;
+        return self.attributes.forEach(function (attribute) {
+            return { name: attribute, value: stats[attribute] };
+        });
     };
-})(jQuery);
+
+    return Weapon;
+});
