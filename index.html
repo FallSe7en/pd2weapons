@@ -5,22 +5,32 @@
         <title>Payday 2 Weapons</title>
 
         <script src="js/data.js"></script>
-        <script data-main="js/main.js" src="js/lib/require.js"></script>
+        <script data-main="js/main" src="js/lib/require.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
 
     <body>
-        <div id="selected-weapon-container">
+        <div id="header" class="centered">
+            <img src="img/Payday2_Logo.jpg">
+        </div>
+
+        <div id="selected-weapon-container" class="centered">
             <div id="weapon">
-                <select id="weapon-select" data-bind="
-                    options: weapons,
-                    optionsText: 'name',
-                    value: selectedWeapon,
-                    optionCaption: 'Choose a weapon.'
-                "></select>
-                <img id="weapon-image" data-bind="attr: { src: weaponImage }">
+                <div class="border">
+                    <img id="weapon-image" data-bind="attr: { src: weaponImage }">
+                </div>
+                <div>
+                    <select id="weapon-select" data-bind="
+                        options: availableWeapons,
+                        optionsText: 'name',
+                        value: currentWeapon,
+                        optionCaption: 'Choose a weapon.'
+                    "></select>
+                </div>
             </div>
 
-            <div id="weapon-stats">
+            <div id="weapon-stats" class="centered">
                 <table data-bind="foreach: weaponStats">
                     <tr>
                         <td data-bind="text: name"></td>
@@ -28,21 +38,21 @@
                     </tr>
                 </table>
             </div>
+
+            <div id="mod-slots">
+                <ul data-bind="foreach: modSlots">
+                    <li data-bind="text: name, click: $root.clickModSlot">
+                        <div>
+                            <!-- ko ifnot: typeof(modImage) === "undefined" -->
+                                <img data-bind="attr: { src: modImage }">
+                            <!-- ko -->
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
 
-        <div id="mod-slots">
-            <ul data-bind="foreach: modSlots">
-                <li data-bind="text: name, click: $root.clickModSlot.bind(name)">
-                    <div>
-                        <!-- ko ifnot: typeof(modImage) === "undefined" -->
-                            <img data-bind="attr: { src: modImage }">
-                        <!-- ko -->
-                    </div>
-                </li>
-            </ul>
-        </div>
-
-        <div id="available-mods">
+        <div id="available-mods" class="centered">
             <ul data-bind="foreach: availableMods">
                 <li data-bind="text: name">
                     <img data-bind="attr: { src: imageUrl }">

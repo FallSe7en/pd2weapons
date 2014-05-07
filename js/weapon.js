@@ -39,42 +39,75 @@ define([ "base", "mod" ], function (Base, Mod) {
     };
 
     Weapon.prototype.getAvailableMods = function getAvailableMods(slot) {
-        return this._availableModifications[slot].sort();
+        var self = this;
+
+        if (slot in self._availableModifications) {
+            return self._availableModifications[slot].sort(function (a, b) {
+                if (a.name < b.name) return -1;
+                if (a.name > b.name) return 1;
+                return 0;
+            });
+        } else {
+            return [];
+        }
     };
 
     Weapon.prototype.getModSlots = function getModSlots() {
-        return this._addedModifications;
+        var self = this;
+
+        return Object.keys(self._addedModifications).sort().map(function (slot) {
+            return self._addedModifications[slot];
+        });
     };
 
     Weapon.prototype.addMod = function addMod(mod) {
-        if (mod.slot in this._addedModifications) {
-            this._addedModifications[mod.slot].mod = mod;
+        var self = this;
+
+        if (mod.slot in self._addedModifications) {
+            self._addedModifications[mod.slot].mod = mod;
         }
+
+        return self;
     };
 
     Weapon.prototype.removeMod = function removeMod(slot) {
-        if (slot in this._addedModifications) {
-            this._addedModifications[slot] = { name: slot, mod: undefined };
+        var self = this;
+
+        if (slot in self._addedModifications) {
+            self._addedModifications[slot] = { name: slot, mod: undefined };
         }
+
+        return self;
     };
 
     Weapon.prototype.clearMods = function clearMods() {
-        this._resetModSlots();
+        var self = this;
+
+        self._resetModSlots();
+
+        return self;
     };
 
     Weapon.prototype.getSummarizedStats = function getSummarizedStats() {
         var self = this, stats = {};
 
-        Object.keys(self._addedModifications).forEach(function (slot) {
-            var mod = self._addedModifications[slot];
+        self.attributes.forEach(function (attribute) { stats[attribute] = 0; });
 
-            self.attributes.forEach(function (attribute) {
-                stats[attribute] = self[attribute] + mod[attribute];
-            });
+        Object.keys(self._addedModifications).forEach(function (slot) {
+            var mod = self._addedModifications[slot].mod;
+
+            if (mod) {
+                self.attributes.forEach(function (attribute) {
+                    stats[attribute] += (mod[attribute] || 0);
+                });
+            }
         });
 
-        return self.attributes.forEach(function (attribute) {
-            return { name: attribute, value: stats[attribute] };
+        return self.attributes.map(function (attribute) {
+            return {
+                name  : attribute,
+                value : (self[attribute] || 0) + stats[attribute]
+            };
         });
     };
 
