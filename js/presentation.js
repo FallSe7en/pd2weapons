@@ -58,10 +58,22 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
     Presentation.prototype.clickMod = function clickMod(modName) {
     };
 
+    Presentation.prototype.unCamel = function (text) {
+        var findWord = /([A-Z][a-z]*)/g;
+
+        return ucfirst(text).match(findWord)
+                            .map(function (word) { return ucfirst(word); })
+                            .join(" ");
+    };
+
     function loadWeapons(weaponsData) {
         return weaponsData.map(function (weapon) {
             return new Weapon(weapon);
         });
+    }
+
+    function ucfirst(s) {
+        return s.charAt(0).toUpperCase() + s.slice(1);
     }
 
     return Presentation;

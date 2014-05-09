@@ -15,49 +15,55 @@
             <img src="img/Payday2_Logo.jpg">
         </div>
 
-        <div id="selected-weapon-container" class="centered">
-            <div id="weapon">
-                <div class="border">
-                    <img id="weapon-image" data-bind="attr: { src: weaponImage }">
+        <div class="centered">
+            <div id="weapon-container">
+                <div id="weapon" class="centered">
+                    <div class="border">
+                        <img id="weapon-image" data-bind="attr: { src: weaponImage }">
+                    </div>
+                    <div>
+                        <select id="weapon-select" data-bind="
+                            options: availableWeapons,
+                            optionsText: 'name',
+                            value: currentWeapon,
+                            optionCaption: 'Choose a weapon.'
+                        "></select>
+                    </div>
                 </div>
-                <div>
-                    <select id="weapon-select" data-bind="
-                        options: availableWeapons,
-                        optionsText: 'name',
-                        value: currentWeapon,
-                        optionCaption: 'Choose a weapon.'
-                    "></select>
+
+                <div id="weapon-stats" class="border">
+                    <table>
+                        <tbody data-bind="foreach: weaponStats">
+                            <tr>
+                                <td class="left" data-bind="text: $root.unCamel(name)"></td>
+                                <td class="right" data-bind="text: value"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <div id="weapon-stats" class="centered">
-                <table data-bind="foreach: weaponStats">
-                    <tr>
-                        <td data-bind="text: name"></td>
-                        <td data-bind="text: value"></td>
-                    </tr>
-                </table>
-            </div>
+            <div id="mod-container">
+                <div id="mod-slots">
+                    <ul data-bind="foreach: modSlots">
+                        <li data-bind="text: name, click: $root.clickModSlot">
+                            <div>
+                                <!-- ko ifnot: typeof(modImage) === "undefined" -->
+                                    <img data-bind="attr: { src: modImage }">
+                                <!-- ko -->
+                            </div>
+                        </li>
+                    </ul>
+                </div>
 
-            <div id="mod-slots">
-                <ul data-bind="foreach: modSlots">
-                    <li data-bind="text: name, click: $root.clickModSlot">
-                        <div>
-                            <!-- ko ifnot: typeof(modImage) === "undefined" -->
-                                <img data-bind="attr: { src: modImage }">
-                            <!-- ko -->
-                        </div>
-                    </li>
-                </ul>
+                <div id="available-mods" class="centered">
+                    <ul data-bind="foreach: availableMods">
+                        <li data-bind="text: name">
+                            <img data-bind="attr: { src: imageUrl }">
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-
-        <div id="available-mods" class="centered">
-            <ul data-bind="foreach: availableMods">
-                <li data-bind="text: name">
-                    <img data-bind="attr: { src: imageUrl }">
-                </li>
-            </ul>
         </div>
     </body>
 </html>
