@@ -19,7 +19,7 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
         self._setModSlots = ko.computed(function () {
             var currentWeapon = self.currentWeapon(),
                 modSlots = currentWeapon
-                    ? Object.keys(currentWeapon.getModSlots()).sort().map(function (slot) {
+                    ? currentWeapon.getModSlots().sort().map(function (slot) {
                         return {
                             name       : slot.name,
                             modImage   : slot.mod ? slot.mod.imageUrl : undefined,
@@ -28,7 +28,6 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
                     }) : [];
 
             self.modSlots(modSlots);
-            self._selectedModSlot(modSlots.length ? modSlots[0] : undefined);
         });
 
         self.availableMods = ko.observableArray([]);
@@ -53,9 +52,15 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
     };
 
     Presentation.prototype.clickModSlot = function clickModSlot() {
+        var modSlot = this;
+        
+        if (_this._selectedModSlot() !== modSlot.name) {
+            _this._selectedModSlot(modSlot.name);
+        }
     };
 
     Presentation.prototype.clickMod = function clickMod(modName) {
+        var mod = this;
     };
 
     Presentation.prototype.unCamel = function (text) {

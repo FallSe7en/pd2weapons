@@ -7,6 +7,6 @@ requirejs.config({
     }
 });
 
-define([ "presentation" ], function (Presentation) {
+define([ "presentation", "data" ], function (Presentation, WeaponsData) {
     window.p = new Presentation(WeaponsData);
 });

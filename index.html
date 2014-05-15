@@ -43,11 +43,11 @@
                 </div>
             </div>
 
-            <div id="mod-container">
+            <div id="mods-container">
                 <div id="mod-slots">
                     <ul data-bind="foreach: modSlots">
-                        <li data-bind="text: name, click: $root.clickModSlot">
-                            <div>
+                        <li data-bind="click: $root.clickModSlot">
+                            <div data-bind="text: name" class="border">
                                 <!-- ko ifnot: typeof(modImage) === "undefined" -->
                                     <img data-bind="attr: { src: modImage }">
                                 <!-- ko -->
@@ -58,8 +58,10 @@
 
                 <div id="available-mods" class="centered">
                     <ul data-bind="foreach: availableMods">
-                        <li data-bind="text: name">
-                            <img data-bind="attr: { src: imageUrl }">
+                        <li>
+                            <div class="border">
+                                <img data-bind="attr: { src: imageUrl, title: name }">
+                            </div>
                         </li>
                     </ul>
                 </div>

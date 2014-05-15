@@ -1,7 +1,22 @@
+::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 2px rgba(255,255,255,1); 
+    border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 2px rgba(255,255,255,1); 
+}
+
 body {
     background-color: black;
     font-family: Geneva, Tahoma, Verdana, sans-serif;
     font-size: 12px;
+    color: white;
 }
 
 body > div {
@@ -10,6 +25,7 @@ body > div {
 
 body > div > div {
     display: inline-block;
+    vertical-align: top;
 }
 
 div.centered {
@@ -31,7 +47,8 @@ div.border {
 
 
 #weapon-container {
-    width: 29%;
+    width: 290px;
+    height: 433px;
 }
 
 #weapon {
@@ -44,7 +61,6 @@ div.border {
 
 #weapon-stats {
     width: 100%;
-    color: white;
     margin-top: 10px;
     padding-top: 10px;
 }
@@ -68,15 +84,45 @@ div.border {
     padding-right: 5px;
 }
 
-#mod-container {
-    width: 70%;
-    height: 100%;
+#mods-container {
+    width: 695px;
+    height: 433px;
+    text-align: right;
+    margin-left: 10px;
 }
 
 #mod-slots {
     width: 100%;
+    text-align: left;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+#mod-slots > ul > li,
+#available-mods > ul > li {
+    display: inline-block;
+    margin: 0 5px 0 5px;
+}
+
+#mod-slots > ul > li > div,
+#available-mods > ul > li > div {
+    width: 140px;
+    height: 90px;
+    text-align: center;
+    padding-top: 5px;
 }
 
 #available-mods {
     width: 100%;
+    text-align: left;
+    overflow-x: auto;
+    overflow-y: none;
+}
+
+#available-mods > ul > li {
+    margin: 5px;
+}
+
+#available-mods img {
+    vertical-align: middle;
 }
