@@ -1,4 +1,5 @@
 define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
+    "use strict";
 
     var _this;
 
@@ -40,10 +41,19 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
             self.availableMods(availableMods);
         });
 
+        self._statModifiers = ko.observable({});
+
         self.weaponStats = ko.observableArray([]);
         self._setWeaponStats = ko.computed(function () {
-            var currentWeapon = self.currentWeapon();
-            self.weaponStats(currentWeapon ? currentWeapon.getSummarizedStats() : []);
+            var currentWeapon = self.currentWeapon(),
+                statModifiers = self._statModifiers(),
+                stats = currentWeapon ? currentWeapon.getSummarizedStats() : [];
+
+            stats.forEach(function (stat) {
+                stat.modifier = statModifiers[stat];
+            });
+
+            self.weaponStats(stats);
         });
 
         $(function () { ko.applyBindings(self); });
@@ -62,14 +72,34 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
     Presentation.prototype.clickMod = function clickMod(modName) {
         var mod = this;
 
-        // TODO
-        // This should have 3 states -
-        //   1. Select  - Select the mod ( displays its affect on weapon stats as +/- values)
-        //   2. Equip   - Equip the mod (apply its modifiers to the stats)
-        //   3. Unequip - Unequip the mod (un-apply its modifiers to the stats)
+        if (mod.is_selected) {
+            _this.currentWeapon().addMod(mod);
+            _this.currentWeapon.valueHasMutated();
+        } else if (mod.is_equipped) {
+            _this.currentWeapon().removeMod(mod.slot);
+            _this.currentWeapon.valueHasMutated();
+        } else {
+            _this._selectNext(mod);
+        }
+    };
 
-        _this.currentWeapon().addMod(mod);
-        _this.currentWeapon.valueHasMutated();
+    Presentation.prototype._selectNext = function _selectNext(nextMod) {
+        var self = this, modDetails = {},
+            currentMod   = _this.currentWeapon().getMod(nextMod.slot),
+            addModifiers = nextMod.select(),
+            removeModifiers;
+
+        if (currentMod) {
+            removeModifiers = currentMod.unselect();
+
+            Object.keys(removeModifiers).forEach(function (attribute) {
+                addModifiers[attribute] += removeModifiers[attribute];
+            });
+        }
+
+        _this._statModifiers(addModifiers);
+
+        return self;
     };
 
     Presentation.prototype.unCamel = function (text) {

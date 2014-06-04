@@ -1,4 +1,6 @@
 define([ "base", "mod" ], function (Base, Mod) {
+    "use strict";
+
     var Weapon = function Weapon(details) {
         var self = this;
 
@@ -64,17 +66,17 @@ define([ "base", "mod" ], function (Base, Mod) {
         var self = this;
 
         if (mod.slot in self._addedModifications) {
-            self._addedModifications[mod.slot].mod = mod;
+            self._addedModifications[mod.slot].mod = mod.equip();
         }
 
         return self;
     };
 
     Weapon.prototype.removeMod = function removeMod(slot) {
-        var self = this;
+        var self = this, unequipped = self._addedModifications[slot].mod.unequip();
 
         if (slot in self._addedModifications) {
-            self._addedModifications[slot] = { name: slot, mod: undefined };
+            self._addedModifications[slot].mod = unequipped;
         }
 
         return self;
@@ -86,6 +88,16 @@ define([ "base", "mod" ], function (Base, Mod) {
         self._resetModSlots();
 
         return self;
+    };
+
+    Weapon.prototype.getMod = function getMod(slot) {
+        var self = this, mod = undefined;
+
+        if (slot in self._addedModifications) {
+            mod = self._addedModifications[slot].mod;
+        }
+
+        return mod;
     };
 
     Weapon.prototype.getSummarizedStats = function getSummarizedStats() {
