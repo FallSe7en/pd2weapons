@@ -4,10 +4,8 @@
     <head>
         <title>Payday 2 Weapons</title>
 
-        <script src="js/data.js"></script>
-        <script data-main="js/main" src="js/lib/require.js"></script>
-
         <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script data-main="js/main" src="js/lib/require.js"></script>
     </head>
 
     <body>
@@ -47,10 +45,9 @@
                 <div id="mod-slots">
                     <ul data-bind="foreach: modSlots">
                         <li data-bind="click: $root.clickModSlot">
-                            <div data-bind="text: name" class="border">
-                                <!-- ko ifnot: typeof(modImage) === "undefined" -->
-                                    <img data-bind="attr: { src: modImage }">
-                                <!-- ko -->
+                            <div class="border">
+                                <p data-bind="text: name"></p>
+                                <img data-bind="attr: { src: modImage }">
                             </div>
                         </li>
                     </ul>
@@ -58,7 +55,7 @@
 
                 <div id="available-mods" class="centered">
                     <ul data-bind="foreach: availableMods">
-                        <li>
+                        <li data-bind="click: $root.clickMod">
                             <div class="border">
                                 <img data-bind="attr: { src: imageUrl, title: name }">
                             </div>

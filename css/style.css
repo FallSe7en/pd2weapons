@@ -107,9 +107,17 @@ div.border {
 #mod-slots > ul > li > div,
 #available-mods > ul > li > div {
     width: 140px;
-    height: 90px;
+    height: 110px;
     text-align: center;
     padding-top: 5px;
+}
+
+#mod-slots > ul > li > div > p {
+    margin-top: 5px;
+}
+
+#mod-slots > ul > li > div > img {
+    height: 70px;
 }
 
 #available-mods {
@@ -125,4 +133,5 @@ div.border {
 
 #available-mods img {
     vertical-align: middle;
+    margin-top: 15px;
 }

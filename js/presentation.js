@@ -61,6 +61,15 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
 
     Presentation.prototype.clickMod = function clickMod(modName) {
         var mod = this;
+
+        // TODO
+        // This should have 3 states -
+        //   1. Select  - Select the mod ( displays its affect on weapon stats as +/- values)
+        //   2. Equip   - Equip the mod (apply its modifiers to the stats)
+        //   3. Unequip - Unequip the mod (un-apply its modifiers to the stats)
+
+        _this.currentWeapon().addMod(mod);
+        _this.currentWeapon.valueHasMutated();
     };
 
     Presentation.prototype.unCamel = function (text) {
