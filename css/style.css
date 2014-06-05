@@ -85,6 +85,14 @@ div.border {
     padding-right: 5px;
 }
 
+#weapon-stats > table .positive {
+    color: #12AD2A;
+}
+
+#weapon-stats > table .negative {
+    color: #FF4040;
+}
+
 #mods-container {
     width: 695px;
     height: 433px;

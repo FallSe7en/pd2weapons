@@ -51,6 +51,15 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
 
             stats.forEach(function (stat) {
                 stat.modifier = statModifiers[stat.name];
+
+                if (stat.modifier > 0) {
+                    stat.modifier = "+" + stat.modifier;
+                    stat.colorClass = "positive";
+                } else if (stat.modifier < 0) {
+                    stat.colorClass = "negative";
+                } else {
+                    stat.colorClass = "";
+                }
             });
 
             self.weaponStats(stats);
