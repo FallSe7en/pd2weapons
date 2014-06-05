@@ -31,6 +31,13 @@
 
                 <div id="weapon-stats" class="border">
                     <table>
+                        <thead>
+                            <tr>
+                                <th class="left">Stat</th>
+                                <th class="right">Value</th>
+                                <th class="right">Change</th>
+                            </tr>
+                        </thead>
                         <tbody data-bind="foreach: weaponStats">
                             <tr>
                                 <td class="left" data-bind="text: $root.unCamel(name)"></td>

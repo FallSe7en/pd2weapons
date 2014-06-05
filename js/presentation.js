@@ -50,7 +50,7 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
                 stats = currentWeapon ? currentWeapon.getSummarizedStats() : [];
 
             stats.forEach(function (stat) {
-                stat.modifier = statModifiers[stat];
+                stat.modifier = statModifiers[stat.name];
             });
 
             self.weaponStats(stats);
@@ -70,16 +70,21 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
     };
 
     Presentation.prototype.clickMod = function clickMod(modName) {
-        var mod = this;
+        var mod = this, manualUpdate = false;;
 
         if (mod.is_selected) {
             _this.currentWeapon().addMod(mod);
-            _this.currentWeapon.valueHasMutated();
+            manualUpdate = true;
         } else if (mod.is_equipped) {
             _this.currentWeapon().removeMod(mod.slot);
-            _this.currentWeapon.valueHasMutated();
+            manualUpdate = true;
         } else {
             _this._selectNext(mod);
+        }
+
+        if (manualUpdate) {
+            _this.currentWeapon.valueHasMutated();
+            _this._statModifiers({});
         }
     };
 
