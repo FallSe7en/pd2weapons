@@ -21,9 +21,9 @@ define([ "base" ], function (Base) {
     };
 
     Mod.prototype.unselect = function unselect() {
-        var self = this, attributes = self._getAttributes(true);
+        var self = this;
 
-        return self._getAttributes();
+        return self._getAttributes(true);
     };
 
     Mod.prototype._getAttributes = function _getAttributes(negate) {
