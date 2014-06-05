@@ -65,6 +65,8 @@ define([ "base", "mod" ], function (Base, Mod) {
     Weapon.prototype.addMod = function addMod(mod) {
         var self = this;
 
+        self.removeMod(mod.slot);
+
         if (mod.slot in self._addedModifications) {
             self._addedModifications[mod.slot].mod = mod.equip();
         }
@@ -73,10 +75,10 @@ define([ "base", "mod" ], function (Base, Mod) {
     };
 
     Weapon.prototype.removeMod = function removeMod(slot) {
-        var self = this, unequipped = self._addedModifications[slot].mod.unequip();
+        var self = this, mod = self._addedModifications[slot].mod;
 
-        if (slot in self._addedModifications) {
-            self._addedModifications[slot].mod = unequipped;
+        if (mod && (slot in self._addedModifications)) {
+            self._addedModifications[slot].mod = mod.unequip();;
         }
 
         return self;
