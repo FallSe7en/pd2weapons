@@ -6,8 +6,8 @@ define([ "base" ], function (Base) {
 
         self.slot = details.slot;
 
-        self.is_selected = false;
-        self.is_equipped = false;
+        self.isSelected = false;
+        self.isEquipped = false;
 
         return Base.call(self, details);
     };
@@ -15,18 +15,20 @@ define([ "base" ], function (Base) {
     Mod.prototype.select = function select() {
         var self = this;
 
-        self.is_selected = true;
+        self.isSelected = true;
 
-        return self._getAttributes();
+        return self.getAttributes();
     };
 
     Mod.prototype.unselect = function unselect() {
         var self = this;
 
-        return self._getAttributes(true);
+        self.isSelected = false;
+
+        return self.getAttributes(true);
     };
 
-    Mod.prototype._getAttributes = function _getAttributes(negate) {
+    Mod.prototype.getAttributes = function getAttributes(negate) {
         var self = this, attributes = {};
 
         self.attributes.forEach(function (attribute) {
@@ -40,14 +42,14 @@ define([ "base" ], function (Base) {
     Mod.prototype.equip = function equip() {
         var self = this;
 
-        self.is_equipped = true;
-        self.is_selected = false;
+        self.isEquipped = true;
+        self.isSelected = false;
 
         return self;
     };
 
     Mod.prototype.unequip = function unequip() {
-        this.is_equipped = false;
+        this.isEquipped = false;
         return undefined;
     };
 

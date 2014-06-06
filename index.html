@@ -69,6 +69,12 @@
                         <li data-bind="click: $root.clickMod">
                             <div class="border">
                                 <img data-bind="attr: { src: imageUrl, title: name }">
+                                <div class="mod-status" data-bind="visible: isEquipped">
+                                    Equipped
+                                </div>
+                                <div class="mod-status" data-bind="visible: isSelected">
+                                    Selected
+                                </div>
                             </div>
                         </li>
                     </ul>

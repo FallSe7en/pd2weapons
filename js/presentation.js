@@ -3,6 +3,12 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
 
     var _this;
 
+    ko.observableArray.fn.forceRefresh = function () {
+        var copy = this().slice(0);
+        this([]);
+        this(copy);
+    };
+
     var Presentation = function Presentation(weaponsData) {
         var self = _this = this;
 
@@ -54,11 +60,11 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
 
                 if (stat.modifier > 0) {
                     stat.modifier = "+" + stat.modifier;
-                    stat.colorClass = "positive";
+                    stat.colorClass = "right positive";
                 } else if (stat.modifier < 0) {
-                    stat.colorClass = "negative";
+                    stat.colorClass = "right negative";
                 } else {
-                    stat.colorClass = "";
+                    stat.colorClass = "right";
                 }
             });
 
@@ -81,10 +87,10 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
     Presentation.prototype.clickMod = function clickMod(modName) {
         var mod = this, manualUpdate = false;;
 
-        if (mod.is_selected) {
+        if (mod.isSelected) {
             _this.currentWeapon().addMod(mod);
             manualUpdate = true;
-        } else if (mod.is_equipped) {
+        } else if (mod.isEquipped) {
             _this.currentWeapon().removeMod(mod.slot);
             manualUpdate = true;
         } else {
@@ -95,16 +101,21 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
             _this.currentWeapon.valueHasMutated();
             _this._statModifiers({});
         }
+
+        _this.availableMods.forceRefresh();
     };
 
     Presentation.prototype._selectNext = function _selectNext(nextMod) {
         var self = this, modDetails = {},
             currentMod   = _this.currentWeapon().getMod(nextMod.slot),
-            addModifiers = nextMod.select(),
-            removeModifiers;
+            addModifiers, removeModifiers;
+
+        self.availableMods().forEach(function (mod) { mod.unselect(); });
+
+        addModifiers = nextMod.select();
 
         if (currentMod) {
-            removeModifiers = currentMod.unselect();
+            removeModifiers = currentMod.getAttributes(true);
 
             Object.keys(removeModifiers).forEach(function (attribute) {
                 addModifiers[attribute] += removeModifiers[attribute];
