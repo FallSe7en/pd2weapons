@@ -669,7 +669,9 @@ define([], function () {
                 concealment : -3,
                 threat      : 0,
 
-                imageUrl    : "img/mod/stock/Wooden_Sniper_Stock.png"
+                imageUrl    : "img/mod/stock/Wooden_Sniper_Stock.png",
+
+                disableModSlots: [ "Grip" ]
             },
             {
                 name        : "Wide Stock",
