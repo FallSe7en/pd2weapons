@@ -8,6 +8,7 @@ define([ "base", "mod" ], function (Base, Mod) {
 
         self._availableModifications = initializeWeaponMods.call(self, details);
         self._addedModifications     = {};
+        self._disabledModSlots       = {};
 
         self._resetModSlots();
 
@@ -21,9 +22,9 @@ define([ "base", "mod" ], function (Base, Mod) {
             var modSlot = mod.slot;
 
             if (modSlot in mods) {
-                mods[modSlot].push(new Mod(mod));
+                mods[modSlot].push(new Mod(mod, self));
             } else {
-                mods[modSlot] = [ new Mod(mod) ];
+                mods[modSlot] = [ new Mod(mod, self) ];
             }
         });
 
@@ -57,9 +58,14 @@ define([ "base", "mod" ], function (Base, Mod) {
     Weapon.prototype.getModSlots = function getModSlots() {
         var self = this;
 
-        return Object.keys(self._addedModifications).sort().map(function (slot) {
-            return self._addedModifications[slot];
-        });
+        return Object.keys(self._addedModifications)
+            .filter(function (slot) {
+                return self._disabledModSlots[slot] === undefined;
+            })
+            .sort()
+            .map(function (slot) {
+                return self._addedModifications[slot];
+            });
     };
 
     Weapon.prototype.addMod = function addMod(mod) {
@@ -78,10 +84,26 @@ define([ "base", "mod" ], function (Base, Mod) {
         var self = this, mod = self._addedModifications[slot].mod;
 
         if (mod && (slot in self._addedModifications)) {
-            self._addedModifications[slot].mod = mod.unequip();;
+            self._addedModifications[slot].mod = mod.unequip();
         }
 
         return self;
+    };
+
+    Weapon.prototype.disableModSlots = function enableModSlots(slots) {
+        var self = this;
+
+        slots.forEach(function (slot) {
+            self._disabledModSlots[slot] = true;
+        });
+    };
+
+    Weapon.prototype.enableModSlots = function enableModSlots(slots) {
+        var self = this;
+
+        slots.forEach(function (slot) {
+            delete self._disabledModSlots[slot];
+        });
     };
 
     Weapon.prototype.clearMods = function clearMods() {

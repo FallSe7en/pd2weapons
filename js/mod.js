@@ -1,13 +1,19 @@
 define([ "base" ], function (Base) {
     "use strict";
 
-    var Mod = function Mod(details) {
+    var Mod = function Mod(details, weapon) {
         var self = this;
+
+        self._weapon = weapon;
 
         self.slot = details.slot;
 
         self.isSelected = false;
         self.isEquipped = false;
+
+        self._disableModSlots = ("disableModSlots" in details)
+            ? details.disableModSlots
+            : [];
 
         return Base.call(self, details);
     };
@@ -45,11 +51,22 @@ define([ "base" ], function (Base) {
         self.isEquipped = true;
         self.isSelected = false;
 
+        if (self._disableModSlots.length > 0) {
+            self._weapon.disableModSlots(self._disableModSlots);
+        }
+
         return self;
     };
 
     Mod.prototype.unequip = function unequip() {
-        this.isEquipped = false;
+        var self = this;
+
+        self.isEquipped = false;
+
+        if (self._disableModSlots.length > 0) {
+            self._weapon.enableModSlots(self._disableModSlots);
+        }
+
         return undefined;
     };
 

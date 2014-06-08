@@ -61,7 +61,9 @@ define([], function () {
                 concealment : 1,
                 threat      : -14,
 
-                imageUrl    : "img/mod/barrel/Stealth_Barrel.png"
+                imageUrl    : "img/mod/barrel/Stealth_Barrel.png",
+
+                disableModSlots: [ "Barrel Extension" ]
             },
             {
                 name        : "Low Profile Suppressor",
