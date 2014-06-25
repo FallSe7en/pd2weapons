@@ -94,6 +94,7 @@ define([ "base", "mod" ], function (Base, Mod) {
         var self = this;
 
         slots.forEach(function (slot) {
+            self.removeMod(slot);
             self._disabledModSlots[slot] = true;
         });
     };
