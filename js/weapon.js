@@ -2,7 +2,8 @@ define([ "base", "mod" ], function (Base, Mod) {
     "use strict";
 
     var attributeMaxes = {
-        accuracy: 18
+        accuracy    : 18,
+        concealment : 30
     };
 
     var Weapon = function Weapon(details) {
