@@ -1,6 +1,10 @@
 define([ "base", "mod" ], function (Base, Mod) {
     "use strict";
 
+    var attributeMaxes = {
+        accuracy: 18
+    };
+
     var Weapon = function Weapon(details) {
         var self = this;
 
@@ -141,9 +145,18 @@ define([ "base", "mod" ], function (Base, Mod) {
         });
 
         return self.attributes.map(function (attribute) {
+            var attributeValue = (self[attribute] || 0) + stats[attribute];
+
+            if (
+                (attribute in attributeMaxes)
+                && attributeValue > attributeMaxes[attribute]
+            ) {
+                attributeValue = attributeMaxes[attribute];
+            }
+
             return {
                 name  : attribute,
-                value : (self[attribute] || 0) + stats[attribute]
+                value : attributeValue
             };
         });
     };
