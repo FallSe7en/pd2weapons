@@ -37,6 +37,8 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
             self.modSlots(modSlots);
         });
 
+        self._statModifiers = ko.observable({});
+
         self.availableMods = ko.observableArray([]);
         self._setAvailableMods = ko.computed(function () {
             var currentWeapon = self.currentWeapon(),
@@ -45,9 +47,8 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
                     : [];
 
             self.availableMods(availableMods);
+            self._statModifiers({});
         });
-
-        self._statModifiers = ko.observable({});
 
         self.weaponStats = ko.observableArray([]);
         self._setWeaponStats = ko.computed(function () {
