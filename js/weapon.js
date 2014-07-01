@@ -3,6 +3,7 @@ define([ "base", "mod" ], function (Base, Mod) {
 
     var attributeMaxes = {
         accuracy    : 18,
+        stability   : 25,
         concealment : 30
     };
 
