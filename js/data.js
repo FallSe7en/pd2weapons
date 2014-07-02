@@ -6,8 +6,9 @@ define([
     "data/ak762",
     "data/jp36",
     "data/m308",
-    "data/ak5"
-], function (amcar, ak, car4, uar, ak762, jp36, m308, ak5) {
+    "data/ak5",
+    "data/amr16"
+], function (amcar, ak, car4, uar, ak762, jp36, m308, ak5, amr16) {
     return [
         amcar,
         ak,
@@ -16,6 +17,7 @@ define([
         ak762,
         jp36,
         m308,
-        ak5
+        ak5,
+        amr16
     ];
 });
