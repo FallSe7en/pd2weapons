@@ -146,7 +146,11 @@ sub _trim
 
 sub _strip
 {
-    (my $text = shift) =~ s/\s//g;
+    my $text = shift;
+
+    $text =~ s/[^A-Za-z0-9]//g;
+    $text =~ s/\s//g;
+
     return ucfirst _camelize($text);
 }
 
@@ -212,7 +216,7 @@ my @weapon_names = map { _strip($_->{name}) } @weapons;
 
     print $file <<HERE;
 define([
-    @{[ join ",\n    ", map { "data/$_" } @weapon_names ]}
+    @{[ join ",\n    ", map { qq|"data/$_"| } @weapon_names ]}
 ], function (
     @{[ join ",\n    ", @weapon_names]}
 ) {
