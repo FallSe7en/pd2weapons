@@ -141,13 +141,13 @@ define([ "base", "mod" ], function (Base, Mod) {
 
             if (mod) {
                 self.attributes.forEach(function (attribute) {
-                    stats[attribute] += (mod[attribute] || 0);
+                    stats[attribute] = parseInt(stats[attribute]) + parseInt(mod[attribute] || 0);
                 });
             }
         });
 
         return self.attributes.map(function (attribute) {
-            var attributeValue = (self[attribute] || 0) + stats[attribute];
+            var attributeValue = parseInt(self[attribute] || 0) + parseInt(stats[attribute]);
 
             if (
                 (attribute in attributeMaxes)

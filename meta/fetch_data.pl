@@ -68,7 +68,10 @@ sub start_handler
             } elsif ($tag_name eq 'td' and exists($attr->{rowspan})) {
                 $in_mod_section    = 1;
                 $get_mod_type      = 1;
-                $current_mod       = { slot => $current_mod_type };
+                $current_mod = {
+                    slot       => $current_mod_type,
+                    attributes => {},
+                };
                 $current_attribute = 0;
             }
         } else {
@@ -78,7 +81,10 @@ sub start_handler
                 }
 
                 $get_mod_name       = 1;
-                $current_mod        = { slot => $current_mod_type };
+                $current_mod = {
+                    slot       => $current_mod_type,
+                    attributes => {},
+                };
                 $current_attribute  = -2;
                 $get_mod_attributes = 1;
             } elsif ($tag_name eq 'td' and $current_mod->{name}) {
@@ -133,7 +139,8 @@ sub text_handler
         $current_mod->{name} = $text;
     } elsif ($get_mod_attributes) {
         if (my $attribute = $attributes[$current_attribute]) {
-            $current_mod->{_camelize($attribute)} ||= $text;
+            $text =~ s/\+//;
+            $current_mod->{attributes}->{_camelize($attribute)} ||= $text;
         }
     }
 }

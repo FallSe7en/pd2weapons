@@ -5,8 +5,7 @@ define([], function () {
         self.name  = details.name;
 
         self.attributes = [
-            "price",
-
+//            "price",
             "magazine",
             "totalAmmo",
             "rateOfFire",
@@ -18,7 +17,7 @@ define([], function () {
         ];
 
         self.attributes.forEach(function (attribute) {
-            self[attribute] = details[attribute];
+            self[attribute] = details.attributes[attribute];
         });
 
         self.imageUrl = details.imageUrl;

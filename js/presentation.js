@@ -119,7 +119,10 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
             removeModifiers = currentMod.getAttributes(true);
 
             Object.keys(removeModifiers).forEach(function (attribute) {
-                addModifiers[attribute] += removeModifiers[attribute];
+                addModifiers[attribute] = (
+                    parseInt(addModifiers[attribute] || 0)
+                    + removeModifiers[attribute]
+                );
             });
         }
 
