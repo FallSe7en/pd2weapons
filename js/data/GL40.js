@@ -1,0 +1,3 @@
+define([], function () {
+    return {"imageUrl":"GL40.png","name":"GL40","attributes":{"magazine":"1","damage":"340","concealment":"18","totalAmmo":"6","threat":"37","rateOfFire":"30","price":"921000","stability":"6","accuracy":"12"},"modifications":[{"imageUrl":"GL40_Pirate_Barrel.png","name":"Pirate Barrel","attributes":{"magazine":null,"concealment":"4","damage":null,"threat":null,"totalAmmo":null,"rateOfFire":null,"price":"43000","stability":null,"slot":null,"accuracy":"-4"},"slot":"Barrel"},{"imageUrl":"GL40_Sawed-off_Stock.png","name":"Sawed-off Stock","attributes":{"magazine":null,"concealment":"4","damage":null,"threat":null,"totalAmmo":null,"rateOfFire":null,"price":"43000","stability":"-3","slot":null,"accuracy":null},"slot":"Stock"}]};
+});

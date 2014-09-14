@@ -5,7 +5,7 @@ define([], function () {
         self.name  = details.name;
 
         self.attributes = [
-//            "price",
+            "price",
             "magazine",
             "totalAmmo",
             "rateOfFire",
@@ -20,7 +20,11 @@ define([], function () {
             self[attribute] = details.attributes[attribute];
         });
 
-        self.imageUrl = details.imageUrl;
+        if (details.imageUrl) {
+            self.imageUrl = 'img/' + details.imageUrl;
+        } else {
+            self.imageUrl = "";
+        }
 
         return self;
     };
