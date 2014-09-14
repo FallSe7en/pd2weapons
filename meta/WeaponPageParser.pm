@@ -172,7 +172,9 @@ sub start_handler
             $get_weapon_name = 1;
         } elsif ($tag_name eq 'img') {
             (my $img_name = $weapon{name} . '.png') =~ s/ /_/g;
-            my $response = getstore($attr->{src}, "$IMAGE_DIRECTORY/$img_name");
+            my $response = $IMAGE_DIRECTORY
+                ? getstore($attr->{src}, "$IMAGE_DIRECTORY/$img_name")
+                : 200;
 
             if ($response == 200) {
                 $weapon{imageUrl} = $img_name;
@@ -201,7 +203,9 @@ sub start_handler
             $get_mod_attribute_value = 1;
         } elsif ($tag_name eq 'img') {
             (my $img_name = $weapon{name} . '_' . $mod{name} . '.png') =~ s/ /_/g;
-            my $response = getstore($attr->{src}, "$IMAGE_DIRECTORY/$img_name");
+            my $response = $IMAGE_DIRECTORY
+                ? getstore($attr->{src}, "$IMAGE_DIRECTORY/$img_name")
+                : 200;
 
             if ($response == 200) {
                 $mod{imageUrl} = $img_name;
