@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-# http://payday.wikia.com/wiki/Weapons_(Payday_2)
+# For use with: http://payday.wikia.com/wiki/Weapons_(Payday_2)
 
 use JSON::XS;
 
