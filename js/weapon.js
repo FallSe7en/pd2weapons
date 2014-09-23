@@ -14,11 +14,11 @@ define([ "base", "mod" ], function (Base, Mod) {
             70, 75,   80, 85,   90, 95,   100, 105,  110, 115,  120
         ],
         accuracy: [ 0, 2, 4, 6, 8,    10, 12,   14, 16, 18 ],
-        stability: [ 0, 3, 6, 8, 12.5, 15, 17.5, 19, 20, 20, 21, 22, 23, 24, 25 ],
-        threat: [
-            4.5, 3.9, 3.6, 3.3, 3,   2.8, 2.6, 2.4, 2.2, 1.6,
-            1.5, 1.4, 1.3, 1.2, 1.1, 1,   0.8, 0.6, 0.4, 0.2
-        ],
+        stability: [ 0, 3, 6, 8, 12.5, 15, 17.5, 19, 20, 20, 21, 22, 23, 24, 25 ]
+//        threat: [
+//            4.5, 3.9, 3.6, 3.3, 3,   2.8, 2.6, 2.4, 2.2, 1.6,
+//            1.5, 1.4, 1.3, 1.2, 1.1, 1,   0.8, 0.6, 0.4, 0.2
+//        ]
     };
 
     var Weapon = function Weapon(details) {
@@ -176,6 +176,19 @@ define([ "base", "mod" ], function (Base, Mod) {
                 value : table ? table[attributeValue] : attributeValue
             };
         });
+    };
+
+    Weapon.prototype.getModifierValue = function (attribute, value) {
+        var self = this, valueTable, newAttributeValue;
+
+        if (attribute in attributeValueTables) {
+            valueTable        = attributeValueTables[attribute];
+            newAttributeValue = valueTable[self[attribute] + value];
+
+            return newAttributeValue - valueTable[self[attribute]];
+        } else {
+            return value;
+        }
     };
 
     return Weapon;
