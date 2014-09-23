@@ -108,7 +108,7 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
 
     Presentation.prototype._selectNext = function _selectNext(nextMod) {
         var self = this, modDetails = {},
-            currentMod   = _this.currentWeapon().getMod(nextMod.slot),
+            currentMod = _this.currentWeapon().getMod(nextMod.slot),
             addModifiers, removeModifiers;
 
         self.availableMods().forEach(function (mod) { mod.unselect(); });
@@ -125,6 +125,13 @@ define([ "jquery", "knockout", "weapon" ], function ($, ko, Weapon) {
                 );
             });
         }
+
+        Object.keys(addModifiers).forEach(function (attribute) {
+            addModifiers[attribute] = _this.currentWeapon().getModifierValue(
+                attribute,
+                addModifiers[attribute]
+            );
+        });
 
         _this._statModifiers(addModifiers);
 
