@@ -6,6 +6,7 @@ use Clone qw/clone/;
 use File::Basename;
 use File::Slurp;
 use JSON::XS;
+use POSIX qw/ceil floor/;
 
 use Data::Dumper;
 
@@ -20,10 +21,10 @@ my %attribute_tables = (
     ],
     accuracy  => [ 0, 2, 4, 6, 8,    10, 12,   14, 16, 18 ],
     stability => [ 0, 3, 6, 8, 12.5, 15, 17.5, 19, 20, 20, 21, 22, 23, 24, 25 ],
-    threat => [
-        4.5, 3.9, 3.6, 3.3, 3,   2.8, 2.6, 2.4, 2.2, 1.6,
-        1.5, 1.4, 1.3, 1.2, 1.1, 1,   0.8, 0.6, 0.4, 0.2
-    ],
+#    threat => [
+#        4.5, 3.9, 3.6, 3.3, 3,   2.8, 2.6, 2.4, 2.2, 1.6,
+#        1.5, 1.4, 1.3, 1.2, 1.1, 1,   0.8, 0.6, 0.4, 0.2
+#    ],
 );
 
 opendir(my ($dh), $in_dir) or die "Could not open directory $in_dir: $!";
@@ -39,6 +40,8 @@ foreach my $file (@files) {
 
         my %weapon_attributes = ();
 
+        print "Translating: @{[ $weapon->{name} ]}...\n";
+
         foreach my $attribute (keys %{ $weapon->{attributes} }) {
             my $value = $weapon_attributes{$attribute}
                       = $weapon->{attributes}->{$attribute};
@@ -50,6 +53,8 @@ foreach my $file (@files) {
 
         my $i = 0;
         foreach my $mod (@{ $weapon->{modifications} }) {
+            print "\tTranslating: @{[ $mod->{name} ]}...\n";
+
             foreach my $attribute (keys %{ $mod->{attributes} }) {
                 my $value = ($weapon_attributes{$attribute} || 0)
                           + ($mod->{attributes}->{$attribute} || 0);
@@ -86,10 +91,13 @@ sub determine_index_in_attribute_table
 
     if ($table) {
         for (my $i = 0; $i < scalar(@$table); $i++) {
-            return $i if (sprintf("%.0f", $table->[$i]) == ($value || 0));
+            return $i if (
+                floor($table->[$i]) == ($value || 0)
+                or ceil($table->[$i]) == ($value || 0)
+            );
         }
 
-        die "Unable to translate: $attribute, $value";
+        print "\t\tUnable to translate: $attribute, $value\n";
     } else {
         return $value;
     }
